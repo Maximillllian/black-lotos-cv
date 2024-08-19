@@ -1,0 +1,43 @@
+<template>
+    <div class="noise_wrapper hidden">
+        <section
+            id="white_noise"
+            class=""
+        ></section>
+    </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+.noise_wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10000;
+    background-color: rgb(255,255,255,0.7);
+}
+
+section#white_noise {
+    width: 100%;
+    height: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.fucking_noise {
+    filter: url(#filter_noise);
+    background: repeating-linear-gradient(#111, #111 50%, #fff 50%, #fff);
+    /* background: white; */
+    background-size: 5px 5px;
+    z-index: 10001;
+}
+
+svg#svg_noise {
+    display: none;
+}
+</style>
