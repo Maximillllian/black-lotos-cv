@@ -28,23 +28,7 @@
 }
 
 
-/* Анимация границ кнопки */
 
-button{
-    transition: .5s ease-out;
-}
-
-button::after, button::before{
-    transition: .5s ease-out;
-}
-
-button:hover::after{
-    width: 0;
-}
-
-button:hover::before{
-    height: 0;
-}
 
 /* Анимация появляющегося текста на кнопке. Это обычная анимация появления 
 границ у кнопки, только текст по z-index находится под кнопкой. Плюс пропадают границы */

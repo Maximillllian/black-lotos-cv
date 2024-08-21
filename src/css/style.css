@@ -9,10 +9,10 @@
 * {
     scroll-behavior: smooth;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body{
-    font-family: 'Montserrat', sans-serif;
     color: var(--color-main);
     background-color: var(--color-bg);   
     overflow-x: hidden; 
@@ -63,27 +63,6 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-button *{
-    z-index: 100;
-}
-
-button::after, button::before{
-    position: absolute;
-    content: '';
-    background-color: var(--color-bg);
-}
-
-button::after{
-    width: 10vw;
-    height: 7vh;
-}
-
-button::before{
-    width: 13vw;
-    height: 5vh;
-    /* background: var(--color-main); */
 }
 
 .button-bordered{
@@ -205,11 +184,6 @@ svg line{
 
 .slide h2{
     font-size: var(--text-md);
-}
-
-.last{
-    margin: 20px auto 0 auto;
-    /* padding: 1vh 3vw; */
 }
 
 /* Main */
@@ -505,15 +479,6 @@ footer img.hero {
 /* Media */
 
 @media (min-width: 575.98px){
-    button{
-        min-width: 13vw;
-        height: 7vh;
-    }
-
-    button *{
-        font-size: var(--text-sm);
-    }
-
     .container-slide{
         padding: 0%;
     }
@@ -554,10 +519,6 @@ footer img.hero {
   }
   
   @media (min-width: 767.98px){
-    button *{
-        font-size: var(--text-md);
-    }
-
     .container-slide{
         padding: 5% 5% 5% 5%;
     }
@@ -612,10 +573,6 @@ footer img.hero {
   }
   
   @media (min-width: 1199.98px){
-    button *{
-        font-size: var(--text-xl);
-    }
-
     .slide h2{
         font-size: var(--text-xxxl);
     }

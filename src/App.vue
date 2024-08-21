@@ -1,51 +1,5 @@
 <template>
-    <header class="first-view">
-        <div class="container-slide slide">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <avatar-container>
-                        <image
-                            href="./assets/img/ava_restraunt.JPG"
-                            height="90%"
-                            width="90%"
-                            x="5%"
-                            y="5%"
-                        />
-                    </avatar-container>
-                    <!-- <figure class="ava-slide in-shadow">
-                        <img src="{% static 'img/ava_restraunt.JPG' %}" alt="">
-                    </figure> -->
-                </div>
-                <div class="col-xl-8 col-xl-offset-0 col-lg-7 col-lg-offset-1 col-md-6 col-sm-6 col-xs-12">
-                    <div class="slide-description">
-                        <h2>
-                            Привет! <br />
-                            Меня зовут Макс, я занимаюсь аналитикой, машинным обучением, версткой сайтов и музыкой.
-                        </h2>
-                        <nav class="slide-nav">
-                            <a href="#ОбоМне"
-                                ><button class="in-darkness"><span>Обо мне</span></button></a
-                            >
-                            <a href=""
-                                ><button class="in-darkness"><span>Портфолио</span></button></a
-                            >
-                            <a href=""
-                                ><button class="in-darkness"><span>Резюме</span></button></a
-                            >
-                            <button class="fade-in last noise_button"><a class="">Не кликай!</a></button>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a
-            href="#"
-            class="lotos-tag in-darkness"
-        >
-            <div class="designed-by">Designed by</div>
-            <div class="black-lotos"><span class="black">Black</span> <span class="lotos">Lotos</span></div>
-        </a>
-    </header>
+    <about-me />
     <main
         class="in-shadow border-out"
         id="ОбоМне"
@@ -305,9 +259,11 @@
 import InstaSvg from './components/svg/instagram.svg';
 import VkSvg from './components/svg/vk.svg';
 import AvatarContainer from './components/AvatarContainer.vue';
+import AboutMe from './components/AboutMe.vue';
 </script>
 
 <style scoped>
+
 .logo {
     height: 6em;
     padding: 1.5em;
