@@ -1,7 +1,7 @@
 <template>
     <about-me />
     <main
-        class="in-shadow border-out"
+        class="in-shadow"
         id="ОбоМне"
     >
         <aside>
@@ -222,13 +222,13 @@
                 href="https://www.instagram.com/black_voro/"
                 class="in-darkness"
             >
-                <insta-svg id="insta" />
+                <img src="./components/svg/instagram.svg" id="insta" />
             </a>
             <a
                 href="https://vk.com/maximillllian"
                 class="in-darkness"
             >
-                <vk-svg id="vk" />
+                <img src="./components/svg/vk.svg" id="vk" />
             </a>
         </div>
         <img
@@ -238,26 +238,10 @@
         />
     </footer>
 
-    <svg id="svg_noise">
-        <filter id="filter_noise">
-            <feTurbulence
-                type="turbulence"
-                baseFrequency="0 0"
-                numOctaves="1"
-                result="warp"
-            />
-            <feDisplacementMap
-                scale="60"
-                in="sourceGraphic"
-            />
-            <!-- in="warp" -->
-        </filter>
-    </svg>
+    
 </template>
 
 <script setup>
-import InstaSvg from './components/svg/instagram.svg';
-import VkSvg from './components/svg/vk.svg';
 import AvatarContainer from './components/AvatarContainer.vue';
 import AboutMe from './components/AboutMe.vue';
 </script>

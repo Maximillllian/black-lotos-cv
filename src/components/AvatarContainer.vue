@@ -54,8 +54,8 @@ image {
 
 .slide-ava{
     display: flex;
-    width: 210px;
-    height: 280px;
+    width: 300px;
+    height: 400px;
     /* border: 1px solid var(--color-secondary); */
     padding: 3px 5px;
     margin: auto;
@@ -112,10 +112,10 @@ svg line{
     z-index: 10;
 }
 
-@media (min-width: 767.98px){
-    .slide-ava{
-        width: 300px;
-        height: 400px;
+@media screen and (max-width: 575.98px) {
+    .ava  {
+        max-width: 225px;
+        height: 300px;
     }
 }
 </style>

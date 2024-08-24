@@ -14,37 +14,34 @@
                 <div class="description">
                     <h2>
                         Привет! <br />
-                        Меня зовут Макс, я занимаюсь аналитикой, машинным обучением, версткой сайтов и музыкой.
+                        Меня зовут Макс. Я разработчик с 3 годами опыта. Занимаюсь разработкой backend и frontend частей приложения. Улучшаю жизнь команды с помощью автоматизации рутины и внедрения новых практик.
                     </h2>
                     <nav>
-                        <v-button
+                        <link-button
                             id="about-button"
                             class="in-darkness"
+                            href="#ОбоМне"
                         >
-                            <a href="#ОбоМне"> Обо мне </a>
-                        </v-button>
+                            Обо мне
+                        </link-button>
 
-                        <v-button
+                        <link-button
                             id="portfolio-button"
                             class="in-darkness"
                         >
-                            <a href=""> Портфолио </a>
-                        </v-button>
+                            Портфолио
+                        </link-button>
 
-                        <v-button class="in-darkness">
-                            <a
-                                href=""
-                                id="resume-button"
-                            >
-                                Резюме
-                            </a>
-                        </v-button>
-                        <v-button
+                        <link-button class="in-darkness" id="resume-button">
+                            Резюме
+                        </link-button>
+                        <link-button
                             id="dont-click-button"
-                            class="fade-in last noise_button"
+                            animation="fade-in"
+                            class="last noise_button"
                         >
-                            <a class="">Не кликай!</a>
-                        </v-button>
+                            Не кликай!
+                        </link-button>
                     </nav>
                 </div>
             </div>
@@ -61,12 +58,12 @@
 
 <script setup>
 import AvatarContainer from './AvatarContainer.vue';
-import VButton from './ui/VButton.vue';
+import LinkButton from './ui/LinkButton.vue';
 </script>
 
 <style scoped>
 h2 {
-    font-size: var(--text-xxxl);
+    font-size: var(--text-xxl);
     font-weight: normal;
 }
 
@@ -128,7 +125,7 @@ h2 {
 
 @media screen and (max-width: 1199.98px) {
     h2 {
-        font-size: var(--text-xxl);
+        font-size: var(--text-xl);
     }
 
     #banner .wrapper {
@@ -145,7 +142,7 @@ h2 {
 
 @media screen and (max-width: 991.98px) {
     h2 {
-        font-size: var(--text-xl);
+        font-size: var(--text-lg);
     }
 }
 
