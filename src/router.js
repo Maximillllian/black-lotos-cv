@@ -4,8 +4,16 @@ import HomeView from './views/MainPageView.vue';
 import OldTerminalView from './views/OldTerminalView.vue';
 
 const routes = [
-    { path: '/', component: HomeView },
-    { path: '/old-terminal', component: OldTerminalView },
+    { 
+        path: '/', 
+        component: HomeView,
+        name: 'Fullstack developer CV', 
+     },
+    { 
+        path: '/old-terminal', 
+        component: OldTerminalView,
+        name: 'Old terminal',
+    },
 ];
 
 export const router = createRouter({
