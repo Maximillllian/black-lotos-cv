@@ -35,15 +35,14 @@
                         <link-button class="in-darkness" id="resume-button">
                             Резюме
                         </link-button>
-                        <router-link to="/old-terminal">
-                            <link-button
-                                id="dont-click-button"
-                                animation="fade-in"
-                                class="last noise_button"
-                            >
-                                Не кликай!
-                            </link-button>
-                        </router-link>
+                        <link-button
+                            id="dont-click-button"
+                            animation="fade-in"
+                            class="last noise_button"
+                            @click="toOldTerminal"
+                        >
+                            Не кликай!
+                        </link-button>
                     </nav>
                 </div>
             </div>
@@ -55,12 +54,22 @@
             <div class="designed-by">Designed by</div>
             <div class="black-lotos"><span class="black">Black</span> <span class="lotos">Lotos</span></div>
         </a>
+        <white-noise v-if="noiseAnimationStarted" @animation-ended="router.push('/old-terminal')" />
     </header>
 </template>
 
 <script setup>
 import AvatarContainer from './AvatarContainer.vue';
 import LinkButton from './ui/LinkButton.vue';
+import WhiteNoise from './WhiteNoise.vue';
+import { router } from '../router';
+import { ref } from 'vue';
+
+const noiseAnimationStarted = ref(false);
+
+function toOldTerminal() {
+    noiseAnimationStarted.value = true;
+}
 </script>
 
 <style scoped>
