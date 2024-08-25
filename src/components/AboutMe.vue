@@ -54,7 +54,7 @@
             <div class="designed-by">Designed by</div>
             <div class="black-lotos"><span class="black">Black</span> <span class="lotos">Lotos</span></div>
         </a>
-        <white-noise v-if="noiseAnimationStarted" @animation-ended="router.push('/old-terminal')" />
+        <white-noise ref="whiteNoise" />
     </header>
 </template>
 
@@ -63,12 +63,14 @@ import AvatarContainer from './AvatarContainer.vue';
 import LinkButton from './ui/LinkButton.vue';
 import WhiteNoise from './WhiteNoise.vue';
 import { router } from '../router';
-import { ref } from 'vue';
+import { ref, unref } from 'vue';
 
-const noiseAnimationStarted = ref(false);
+const whiteNoise = ref(null);
 
-function toOldTerminal() {
-    noiseAnimationStarted.value = true;
+async function toOldTerminal() {
+    await unref(whiteNoise).startFullAnimation(() => {
+        router.push('/old-terminal');
+    });
 }
 </script>
 

@@ -2,19 +2,16 @@
     <div class="scanline"></div>
 
     <div class="terminal">
-        <!-- <main v-if="isIntroEnded"> -->
-        <main v-if="true">
+        <main v-if="isIntroEnded">
             <aside>
-                <router-link
-                    to="/"
-                    class="old-button to-main"
-                >
+                <span class="old-button to-main" @click="toMainPage">
                     Главная
-                </router-link>
+                </span>
                 <div class="designed-by">Designed by Black Lotos</div>
             </aside>
             <section class="content">
                 <h2>Анекдоты</h2>
+                <!-- TODO: InfinityScroll -->
                 <div class="anecdots">
                     <div class="anecdot-item">
                         Военная часть, солдат много, еды мало, офицеры уже все съели, поэтому надо чем-то солдат от еды
@@ -103,18 +100,22 @@
                 <span class="intro-message"></span>
             </div>
         </section>
+        <white-noise ref="whiteNoise" />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, ref, unref, nextTick } from 'vue';
 import gsap from 'gsap';
 import Typewriter from 'typewriter-effect/dist/core';
+import { router } from '../router';
 import { onMounted } from 'vue';
+import WhiteNoise from '../components/WhiteNoise.vue';
 
 document.body.className = 'terminal-page';
 
 const isIntroEnded = ref(false);
+const whiteNoise = ref(null);
 
 function startIntro() {
     const introMessage = document.querySelector('.intro-message');
@@ -132,13 +133,33 @@ function startIntro() {
         .pauseFor(2000)
         .deleteAll(25)
         .start()
-        .callFunction(() => (isIntroEnded.value = true));
+        .callFunction(async () => {
+            isIntroEnded.value = true;
+            await nextTick();
+            await unref(whiteNoise).startShortAnimation();
+            document.body.className = 'terminal-page';
+        });
 
     const cursor = gsap.to('.cursor', { opacity: 0, ease: 'steps(1)', duration: 1, repeat: -1 });
 }
 
+function skipIntroAnimation() {
+    isIntroEnded.value = true;
+}
+
+async function toMainPage() {
+    await unref(whiteNoise).startFullAnimation(() => {
+        router.push('/');
+    });
+};
+
 onMounted(() => {
     startIntro();
+    document.addEventListener('keypress', skipIntroAnimation, { once: true });
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('keypress', skipIntroAnimation);
 });
 </script>
 
@@ -205,5 +226,49 @@ main .content h2 {
     font-size: 1.5rem;
     position: absolute;
     top: 0;
+}
+
+@media screen and (max-width: 767.98px) {
+    .terminal main {
+        flex-direction: column;
+    }
+
+    .terminal aside {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+        border-bottom: none;
+        padding: var(--space-sm);
+        gap: 20px;
+    }
+
+    .designed-by {
+        margin: 0;
+    }
+
+    .terminal main .content h2 {
+        display: none;
+    }
+
+    .terminal main .content {
+        border: 5px             double #fff;
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+  body.terminal-page .terminal {
+    -webkit-animation: none;
+    animation: none;
+  }
+
+  main .content > * {
+    padding: var(--space-md);
+  }
+
+  .anecdot-item {
+    margin-top: 0;
+  }
 }
 </style>
