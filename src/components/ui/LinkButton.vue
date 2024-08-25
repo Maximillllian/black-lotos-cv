@@ -1,5 +1,11 @@
 <template>
-    <component :is="buttonComponent" :href="href" class="button" :class="{ 'fade-in': isFadeIn }">
+    <component 
+        :is="buttonComponent" 
+        :href="href" 
+        class="button" 
+        :class="{ 'fade-in': isFadeIn }"
+        @click="$emit('click', $event)"
+    >
         <slot />
     </component>
 </template>
@@ -93,11 +99,12 @@ const buttonComponent = computed(() => !unref(props.href) ? 'span' : 'a');
 .fade-in {
     z-index: 1;
     transition: all .6s ease-out;
+    animation: fade-out-border 2s cubic-bezier(0.625, 0.145, 0.375, 0.755) infinite alternate;
 }
 
 .fade-in:before {
     z-index: 1;
-    animation: fade-in-infinity 3s cubic-bezier(0.625, 0.145, 0.375, 0.755) infinite alternate;
+    animation: fade-in-infinity 2s cubic-bezier(0.625, 0.145, 0.375, 0.755) infinite alternate;
 }
 
 .fade-in:after {
@@ -113,7 +120,7 @@ const buttonComponent = computed(() => !unref(props.href) ? 'span' : 'a');
 }
 
 .fade-in:hover *{
-    opacity: 1;
+    border: unset;
 }
 
 @media (min-width: 575.98px){
@@ -134,6 +141,15 @@ const buttonComponent = computed(() => !unref(props.href) ? 'span' : 'a');
     }
     80%, 100% {
         width: 0;
+    }
+}
+
+@keyframes fade-out-border {
+    0%, 20% {
+        border: 1px solid var(--color-secondary);
+    }
+    80%, 100% {
+        border: 1px solid var(--color-bg);;
     }
 }
 </style>
