@@ -3,16 +3,18 @@
 @import url('./__spaces.css');
 @import url('./__typhography.css');
 @import url('./animations.css');
+@import url('./normalize.css');
+@import url('./old_style.css');
 
 /* GENERAL */
 
-* {
+body.main * {
     scroll-behavior: smooth;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
 
-body{
+body.main {
     color: var(--color-main);
     background-color: var(--color-bg);   
     overflow-x: hidden; 
@@ -193,7 +195,6 @@ main{
     flex-direction: row;
     margin: 0 20px;
     /* padding: 20px 0; */
-    border: 2px solid var(--color-secondary);
 }
 
 main > *{
@@ -201,7 +202,7 @@ main > *{
     /* margin: 20px; */
 }
 
-main:after{
+body.main main:after{
     content: '';
     position: absolute;
     width: 90%;
@@ -213,7 +214,7 @@ main:after{
     z-index: 0;
 }
 
-main:before{
+body.main main:before{
     content: '';
     position: absolute;
     width: 90%;
@@ -239,7 +240,7 @@ section h2{
 
 /* ASIDE */
 
-aside{
+.main aside{
     position: sticky;
     position: -webkit-sticky;
     align-self: flex-start;

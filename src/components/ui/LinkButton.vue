@@ -1,7 +1,7 @@
 <template>
-    <a :href="href" class="button" :class="{ 'fade-in': isFadeIn }">
+    <component :is="buttonComponent" :href="href" class="button" :class="{ 'fade-in': isFadeIn }">
         <slot />
-    </a>
+    </component>
 </template>
 
 <script setup>
@@ -21,6 +21,7 @@ const props = defineProps({
 });
 
 const isFadeIn = computed(() => unref(props.animation) === 'fade-in');
+const buttonComponent = computed(() => !unref(props.href) ? 'span' : 'a');
 </script>
 
 <style>

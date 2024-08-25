@@ -35,13 +35,15 @@
                         <link-button class="in-darkness" id="resume-button">
                             Резюме
                         </link-button>
-                        <link-button
-                            id="dont-click-button"
-                            animation="fade-in"
-                            class="last noise_button"
-                        >
-                            Не кликай!
-                        </link-button>
+                        <router-link to="/old-terminal">
+                            <link-button
+                                id="dont-click-button"
+                                animation="fade-in"
+                                class="last noise_button"
+                            >
+                                Не кликай!
+                            </link-button>
+                        </router-link>
                     </nav>
                 </div>
             </div>
