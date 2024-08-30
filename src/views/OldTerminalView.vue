@@ -2,7 +2,7 @@
     <div class="scanline"></div>
 
     <div class="terminal">
-        <main v-if="isIntroEnded">
+        <main v-if="isAnimationEnded">
             <aside>
                 <span class="old-button to-main" @click="toMainPage">
                     Главная
@@ -111,10 +111,12 @@ import Typewriter from 'typewriter-effect/dist/core';
 import { router } from '../router';
 import { onMounted } from 'vue';
 import WhiteNoise from '../components/WhiteNoise.vue';
+import { useAnimation } from '../composables/use_animation';
 
 document.body.className = 'terminal-page';
 
-const isIntroEnded = ref(false);
+const { isAnimationEnded, endAnimation } = useAnimation();
+
 const whiteNoise = ref(null);
 
 function startIntro() {
@@ -134,17 +136,13 @@ function startIntro() {
         .deleteAll(25)
         .start()
         .callFunction(async () => {
-            isIntroEnded.value = true;
+            endAnimation();
             await nextTick();
             await unref(whiteNoise).startShortAnimation();
             document.body.className = 'terminal-page';
         });
 
     const cursor = gsap.to('.cursor', { opacity: 0, ease: 'steps(1)', duration: 1, repeat: -1 });
-}
-
-function skipIntroAnimation() {
-    isIntroEnded.value = true;
 }
 
 async function toMainPage() {
@@ -155,11 +153,6 @@ async function toMainPage() {
 
 onMounted(() => {
     startIntro();
-    document.addEventListener('keypress', skipIntroAnimation, { once: true });
-});
-
-onBeforeUnmount(() => {
-    document.removeEventListener('keypress', skipIntroAnimation);
 });
 </script>
 

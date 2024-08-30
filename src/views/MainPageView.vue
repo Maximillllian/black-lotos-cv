@@ -237,15 +237,17 @@
             class="in-darkness hero"
         />
     </footer>
-
-    
+    <black-lotos-preloader />    
 </template>
 
 <script setup>
 import AvatarContainer from '../components/AvatarContainer.vue';
 import AboutMe from '../components/AboutMe.vue';
+import BlackLotosPreloader from '../components/BlackLotosPreloader.vue';
 
 document.body.className = 'main';
+
+
 </script>
 
 <style scoped>
