@@ -4,5 +4,10 @@ import svgLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), svgLoader()],
+    server: {
+        port: 8000,
+        host: '0.0.0.0'
+    },
+    plugins: [vue(), svgLoader()],
+    assetsInclude: ['**/*.JPG'],
 })

@@ -1,0 +1,9 @@
+PORT=8089
+APP_NAME=black_lotos
+
+docker_build:
+ docker build --tag=${APP_NAME} --build-arg API_KEY=${API_KEY} --build-arg PORT=${PORT} .
+
+deploy_headless:
+ $(MAKE) docker_build
+ docker run --name ${APP_NAME} -dit -p ${PORT}:${PORT} ${APP_NAME}
