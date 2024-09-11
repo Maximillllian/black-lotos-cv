@@ -35,6 +35,10 @@ jobs:
         with:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: Set up SSH
         run: |
           env
@@ -48,7 +52,12 @@ jobs:
           sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
           docker pull ${{ env.DOCKER_IMAGE }}
           docker stop ${{ env.APP_NAME }}
-          docker system prune -f
+          docker rm ${{ env.APP_NAME }}
+          # docker system prune -f
           export ${{ env.API_KEY_NAME }}=${{ env.API_KEY }}
-          docker run --name ${{ env.APP_NAME }} -dit -p 81:${{ env.NGINX_PORT }} ${{ env.DOCKER_IMAGE }}
+          docker run --name ${{ steps.extract_branch.outputs.branch }} \
+            -e VIRTUAL_HOST=${{ steps.extract_branch.outputs.branch }}.blacklotos.ru \
+            -e VIRTUAL_PORT=8080 \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            -dit ${{ env.DOCKER_IMAGE }}
           ENDSSH
