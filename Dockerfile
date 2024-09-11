@@ -14,6 +14,6 @@ FROM nginx:alpine
 COPY nginx-container.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist /srv/nginx/pages/www/dist
 
-EXPOSE 8081
+EXPOSE 8080
 
 CMD [ "nginx", "-g", "daemon off;" ]

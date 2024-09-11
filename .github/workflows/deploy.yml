@@ -52,5 +52,9 @@ jobs:
           docker rm ${{ env.APP_NAME }}
           # docker system prune -f
           export ${{ env.API_KEY_NAME }}=${{ env.API_KEY }}
-          docker run --name ${{ env.APP_NAME }} --network review-app-network -dit ${{ env.DOCKER_IMAGE }}
+          docker run --name ${{ env.APP_NAME }} \
+            -e VIRTUAL_HOST=blacklotos.ru,www.blacklotos.ru,localhost \
+            -e VIRTUAL_PORT=8080 \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            -dit ${{ env.DOCKER_IMAGE }}
           ENDSSH
