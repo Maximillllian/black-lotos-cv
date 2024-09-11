@@ -8,4 +8,5 @@ jobs:
     with:
       host_address: ${{ github.ref_name }}.blacklotos.ru
       image_name: maximillllian/black-lotos-${{ github.ref_name }}:${{ github.sha }}
+      container_name: black-lotos-${{ github.ref_name }}
     secrets: inherit

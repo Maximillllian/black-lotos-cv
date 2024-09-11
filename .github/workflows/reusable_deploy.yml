@@ -9,6 +9,9 @@ on:
       image_name:
         required: true
         type: string
+      container_name:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -17,7 +20,7 @@ jobs:
       API_KEY_NAME: ${{ secrets.API_KEY_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
       APP_PATH: ${{ secrets.APP_PATH }}
-      APP_NAME: ${{ secrets.APP_NAME }}
+      CONTAINER_NAME: ${{ inputs.container_name }}
       PSWD: ${{ secrets.PSWD }}
       USER: ${{ secrets.USER }}
       HOST: ${{ secrets.HOST }}
@@ -55,10 +58,10 @@ jobs:
         run: |
           sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
           docker pull ${{ env.DOCKER_IMAGE }}
-          docker stop ${{ env.APP_NAME }}
-          docker rm ${{ env.APP_NAME }}
+          docker stop ${{ env.CONTAINER_NAME }}
+          docker rm ${{ env.CONTAINER_NAME }}
           export ${{ env.API_KEY_NAME }}=${{ env.API_KEY }}
-          docker run --name ${{ env.APP_NAME }} \
+          docker run --name ${{ env.CONTAINER_NAME }} \
             -e VIRTUAL_HOST=${{ inputs.host_address }} \
             -e VIRTUAL_PORT=8080 \
             --volume /var/run/docker.sock:/var/run/docker.sock \
