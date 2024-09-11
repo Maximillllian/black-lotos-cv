@@ -9,4 +9,5 @@ jobs:
     with:
       host_address: blacklotos.ru,www.blacklotos.ru,localhost
       image_name: maximillllian/black-lotos:${{ github.sha }}
+      container_name: black-lotos-prod
     secrets: inherit

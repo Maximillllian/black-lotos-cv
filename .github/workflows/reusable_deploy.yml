@@ -61,6 +61,7 @@ jobs:
           docker stop ${{ env.CONTAINER_NAME }}
           docker rm ${{ env.CONTAINER_NAME }}
           export ${{ env.API_KEY_NAME }}=${{ env.API_KEY }}
+          echo "host_address: ${{ inputs.host_address }}"
           docker run --name ${{ env.CONTAINER_NAME }} \
             -e VIRTUAL_HOST=${{ inputs.host_address }} \
             -e VIRTUAL_PORT=8080 \
