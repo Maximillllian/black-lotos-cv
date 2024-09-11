@@ -7,4 +7,5 @@ jobs:
     uses: ./.github/workflows/reusable_deploy.yml
     with:
       host_address: ${{ github.ref_name }}.blacklotos.ru
+      image_name: maximillllian/black-lotos-${{ github.ref_name }}:${{ github.sha }}
     secrets: inherit
