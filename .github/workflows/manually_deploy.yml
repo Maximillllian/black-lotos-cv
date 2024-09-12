@@ -7,6 +7,7 @@ on:
 
 jobs:
     check_need_deploy:
+        permissions: write-all
         runs-on: ubuntu-latest
         outputs:
             triggered: ${{ steps.check.outputs.triggered }}
