@@ -15,9 +15,9 @@ jobs:
               id: check
               with:
                   trigger: '@deploy'
-                  # reaction: rocket
+                  reaction: rocket
               env:
-                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     deploy_manually:
         needs: check_need_deploy
         if: needs.check_need_deploy.outputs.triggered == 'true'
