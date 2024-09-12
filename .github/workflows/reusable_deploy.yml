@@ -12,6 +12,11 @@ on:
       container_name:
         required: true
         type: string
+      kill_after:
+        required: false
+        default: 0
+        type: number
+
 
 jobs:
   build:
@@ -29,6 +34,7 @@ jobs:
       ARTIFACT_HOST: ${{ secrets.ARTIFACT_HOST }}
       ARTIFACT_SSH_KEY: ${{ secrets.ARTIFACT_SSH_KEY }}
       DOCKER_IMAGE: ${{ inputs.image_name }}
+      KILL_AFTER: ${{ inputs.kill_after }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

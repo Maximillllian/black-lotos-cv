@@ -7,20 +7,21 @@ on:
 
 jobs:
     check_need_deploy:
-      runs-on: ubuntu-latest
-      outputs:
-        triggered: ${{ steps.check.outputs.triggered }}
-      steps:
-          - uses: khan/pull-request-comment-trigger@v1.1.0
-            id: check
-            with:
-                trigger: '@deploy'
-                # reaction: rocket
-            env:
-                GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        runs-on: ubuntu-latest
+        outputs:
+            triggered: ${{ steps.check.outputs.triggered }}
+        steps:
+            - uses: khan/pull-request-comment-trigger@v1.1.0
+              id: check
+              with:
+                  trigger: '@deploy'
+                  # reaction: rocket
+              env:
+                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     deploy_manually:
         needs: check_need_deploy
         if: needs.check_need_deploy.outputs.triggered == 'true'
+
         uses: ./.github/workflows/reusable_deploy.yml
         with:
             host_address: ${{ github.ref_name }}.blacklotos.ru
@@ -31,6 +32,7 @@ jobs:
     comment:
         needs: check_need_deploy
         if: needs.check_need_deploy.outputs.triggered == 'true'
+
         runs-on: ubuntu-latest
         steps:
             - uses: actions/github-script@v6
