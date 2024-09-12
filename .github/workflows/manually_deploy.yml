@@ -1,12 +1,13 @@
 name: Manually deploy
 on:
   workflow_dispatch:
-    
+
 jobs:
-  call-workflow-passing-data:
+  deploy_manually:
     uses: ./.github/workflows/reusable_deploy.yml
     with:
       host_address: ${{ github.ref_name }}.blacklotos.ru
       image_name: maximillllian/black-lotos-${{ github.ref_name }}:${{ github.sha }}
       container_name: black-lotos-${{ github.ref_name }}
-    secrets: inherit
+      kill_after: 50
+    secrets: inherit   
