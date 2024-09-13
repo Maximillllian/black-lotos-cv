@@ -6,7 +6,20 @@ on:
         types: [created]
 
 jobs:
+    check_need_deploy:
+        runs-on: ubuntu-latest
+        outputs:
+            triggered: ${{ steps.check.outputs.triggered }}
+        steps:
+            - uses: shanegenschaw/pull-request-comment-trigger@v2.1.0
+              id: check
+              with:
+                  trigger: '/deploy'
+                  reaction: rocket
+              env:
+                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     get_branch_name:
+      needs: check_need_deploy
       runs-on: ubuntu-latest
       outputs:
         ref_name: ${{ fromJson(steps.get_pull_request_ref.outputs.data).head.ref }} 
@@ -20,18 +33,6 @@ jobs:
             issue_id: ${{ github.event.issue.number }}
           env:
             GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    check_need_deploy:
-        runs-on: ubuntu-latest
-        outputs:
-            triggered: ${{ steps.check.outputs.triggered }}
-        steps:
-            - uses: shanegenschaw/pull-request-comment-trigger@v2.1.0
-              id: check
-              with:
-                  trigger: '/deploy'
-                  reaction: rocket
-              env:
-                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     deploy_manually:
         needs: [check_need_deploy, get_branch_name]
         if: needs.check_need_deploy.outputs.triggered == 'true'
@@ -42,6 +43,7 @@ jobs:
             image_name: maximillllian/black-lotos-${{ needs.get_branch_name.outputs.ref_name }}:${{ github.sha }}
             # При изменении еще поправить ниже в CONTAINER_NAME
             container_name: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
+            branch: ${{ needs.get_branch_name.outputs.ref_name }}
         secrets: inherit
     comment:
         needs: [deploy_manually, get_branch_name]
