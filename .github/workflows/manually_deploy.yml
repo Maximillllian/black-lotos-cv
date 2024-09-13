@@ -27,8 +27,8 @@ jobs:
         with:
             host_address: ${{ github.ref_name }}.blacklotos.ru
             image_name: maximillllian/black-lotos-${{ github.ref_name }}:${{ github.sha }}
+            # При изменении еще поправить ниже в CONTAINER_NAME
             container_name: black-lotos-${{ github.ref_name }}
-            kill_after: 50
         secrets: inherit
     comment:
         needs: deploy_manually
@@ -48,3 +48,22 @@ jobs:
                         repo: context.repo.repo,
                         body: '👋 Thanks for reporting! ' + HOST_ADDRESS
                       })
+    kill:
+        needs: deploy_manually
+        if: needs.check_need_deploy.outputs.triggered == 'true'
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: kill_app
+              env:
+                  KILL_AFTER: 50
+                  PSWD: ${{ secrets.PSWD }}
+                  USER: ${{ secrets.USER }}
+                  HOST: ${{ secrets.HOST }}
+                  CONTAINER_NAME: black-lotos-${{ github.ref_name }}
+              run: |
+                  sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
+                  sleep ${{ env.KILL_AFTER }}s
+                  docker stop ${{ env.CONTAINER_NAME }}
+                  docker rm ${{ env.CONTAINER_NAME }}
+                  ENDSSH
