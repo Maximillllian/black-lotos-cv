@@ -59,7 +59,7 @@ jobs:
                         issue_number: context.issue.number,
                         owner: context.repo.owner,
                         repo: context.repo.repo,
-                        body: `Review app successfully deployed [${HOST_ADDRESS}](${HOST_ADDRESS})`
+                        body: `Review app successfully deployed [${HOST_ADDRESS}](http://${HOST_ADDRESS})`
                       })
     kill:
         needs: [deploy_manually, get_branch_name]
@@ -69,14 +69,14 @@ jobs:
         steps:
             - name: kill_app
               env:
-                  KILL_AFTER: 50
+                  KILL_AFTER: '50s'
                   PSWD: ${{ secrets.PSWD }}
                   USER: ${{ secrets.USER }}
                   HOST: ${{ secrets.HOST }}
                   CONTAINER_NAME: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
               run: |
                   sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
-                  sleep ${{ env.KILL_AFTER }}s
+                  sleep ${{ env.KILL_AFTER }}
                   docker stop ${{ env.CONTAINER_NAME }}
                   docker rm ${{ env.CONTAINER_NAME }}
                   ENDSSH
