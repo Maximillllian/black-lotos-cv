@@ -75,8 +75,8 @@ jobs:
                   HOST: ${{ secrets.HOST }}
                   CONTAINER_NAME: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
               run: |
-                  sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
                   sleep ${{ env.KILL_AFTER }}
+                  sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'
                   docker stop ${{ env.CONTAINER_NAME }}
                   docker rm ${{ env.CONTAINER_NAME }}
                   ENDSSH
