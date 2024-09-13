@@ -1,7 +1,5 @@
 name: Manually deploy
 on:
-    pull_request:
-        types: [opened]
     issue_comment:
         types: [created]
 
@@ -19,21 +17,21 @@ jobs:
               env:
                   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     get_branch_name:
-      needs: check_need_deploy
-      runs-on: ubuntu-latest
-      outputs:
-        ref_name: ${{ fromJson(steps.get_pull_request_ref.outputs.data).head.ref }} 
-      steps:
-        - name: get pull request ref
-          id: get_pull_request_ref
-          uses: octokit/request-action@v2.x
-          with:
-            route: GET /repos/:repository/pulls/:issue_id
-            repository: ${{ github.repository }}
-            issue_id: ${{ github.event.issue.number }}
-          env:
-            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    deploy_manually:
+        needs: check_need_deploy
+        runs-on: ubuntu-latest
+        outputs:
+            ref_name: ${{ fromJson(steps.get_pull_request_ref.outputs.data).head.ref }}
+        steps:
+            - name: get pull request ref
+              id: get_pull_request_ref
+              uses: octokit/request-action@v2.x
+              with:
+                  route: GET /repos/:repository/pulls/:issue_id
+                  repository: ${{ github.repository }}
+                  issue_id: ${{ github.event.issue.number }}
+              env:
+                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+    deploy:
         needs: [check_need_deploy, get_branch_name]
         if: needs.check_need_deploy.outputs.triggered == 'true'
 
@@ -46,7 +44,7 @@ jobs:
             branch: ${{ needs.get_branch_name.outputs.ref_name }}
         secrets: inherit
     comment:
-        needs: [deploy_manually, get_branch_name]
+        needs: [deploy, get_branch_name]
         if: needs.check_need_deploy.outputs.triggered == 'true'
 
         runs-on: ubuntu-latest
@@ -64,14 +62,14 @@ jobs:
                         body: `Review app successfully deployed [${HOST_ADDRESS}](http://${HOST_ADDRESS})`
                       })
     kill:
-        needs: [deploy_manually, get_branch_name]
+        needs: [deploy, get_branch_name]
         if: needs.check_need_deploy.outputs.triggered == 'true'
         runs-on: ubuntu-latest
 
         steps:
             - name: kill_app
               env:
-                  KILL_AFTER: '50s'
+                  KILL_AFTER: '90m'
                   PSWD: ${{ secrets.PSWD }}
                   USER: ${{ secrets.USER }}
                   HOST: ${{ secrets.HOST }}
