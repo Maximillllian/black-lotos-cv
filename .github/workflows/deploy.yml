@@ -4,11 +4,18 @@ on:
     branches:
       - main
 jobs:
+  variables:
+    runs-on: ubuntu-latest
+    outputs:
+      host_address: ${{ secrets.ARTIFACT_HOST }}
+    steps:
+      - name: pass
+        run: echo "great!"
   deploy:
+    needs: variables
     uses: ./.github/workflows/reusable_deploy.yml
     with:
-      host_address: blacklotos.ru,www.blacklotos.ru,localhost
-      image_name: maximillllian/black-lotos
+      host_address: ${{ needs.variables.outputs.host_address }},www.${{ needs.variables.outputs.host_address }},localhost
       container_name: black-lotos-prod
       branch: ${{ github.ref_name }}
     secrets: inherit

@@ -31,27 +31,36 @@ jobs:
                   issue_id: ${{ github.event.issue.number }}
               env:
                   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+    variables:
+      needs: [check_need_deploy, get_branch_name]
+      runs-on: ubuntu-latest
+      outputs:
+        branch_name: ${{ needs.get_branch_name.outputs.ref_name }}
+        host_address: ${{ needs.get_branch_name.outputs.ref_name }}.${{ secrets.ARTIFACT_HOST }}
+        container_name: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
+        triggered: ${{ needs.check_need_deploy.outputs.triggered }}
+      steps:
+        - name: pass
+          run: echo "great!"
     deploy:
-        needs: [check_need_deploy, get_branch_name]
-        if: needs.check_need_deploy.outputs.triggered == 'true'
+        needs: variables
+        if: needs.variables.outputs.triggered == 'true'
 
         uses: ./.github/workflows/reusable_deploy.yml
         with:
-            host_address: ${{ needs.get_branch_name.outputs.ref_name }}.blacklotos.ru
-            image_name: maximillllian/black-lotos
-            # При изменении еще поправить ниже в CONTAINER_NAME
-            container_name: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
-            branch: ${{ needs.get_branch_name.outputs.ref_name }}
+            host_address: ${{ needs.variables.outputs.host_address }}
+            container_name: ${{ needs.variables.outputs.container_name }}
+            branch: ${{ needs.variables.outputs.branch_name }}
         secrets: inherit
     comment:
-        needs: [deploy, get_branch_name]
-        if: needs.check_need_deploy.outputs.triggered == 'true'
+        needs: [deploy, variables]
+        if: needs.variables.outputs.triggered == 'true'
 
         runs-on: ubuntu-latest
         steps:
             - uses: actions/github-script@v6
               env:
-                  HOST_ADDRESS: ${{ needs.get_branch_name.outputs.ref_name }}.blacklotos.ru
+                  HOST_ADDRESS: ${{ needs.variables.outputs.host_address }}
               with:
                   script: |
                       const { HOST_ADDRESS } = process.env 
@@ -62,8 +71,8 @@ jobs:
                         body: `Review app successfully deployed [${HOST_ADDRESS}](http://${HOST_ADDRESS})`
                       })
     kill:
-        needs: [deploy, get_branch_name]
-        if: needs.check_need_deploy.outputs.triggered == 'true'
+        needs: [deploy, variables]
+        if: needs.variables.outputs.triggered == 'true'
         runs-on: ubuntu-latest
 
         steps:
@@ -73,7 +82,7 @@ jobs:
                   PSWD: ${{ secrets.PSWD }}
                   USER: ${{ secrets.USER }}
                   HOST: ${{ secrets.HOST }}
-                  CONTAINER_NAME: black-lotos-${{ needs.get_branch_name.outputs.ref_name }}
+                  CONTAINER_NAME: ${{ needs.variables.outputs.container_name }}
               run: |
                   sleep ${{ env.KILL_AFTER }}
                   sshpass -p ${{ env.PSWD }} ssh -v -o StrictHostKeyChecking=no ${{ env.USER }}@${{ env.HOST }} <<'ENDSSH'

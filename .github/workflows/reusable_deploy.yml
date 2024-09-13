@@ -6,9 +6,6 @@ on:
       host_address: 
         required: true
         type: string
-      image_name:
-        required: true
-        type: string
       container_name:
         required: true
         type: string
@@ -28,10 +25,9 @@ jobs:
       USER: ${{ secrets.USER }}
       HOST: ${{ secrets.HOST }}
       PORT: ${{ secrets.PORT }}
-      NGINX_PORT: ${{ secrets.NGINX_PORT }}
       ARTIFACT_HOST: ${{ secrets.ARTIFACT_HOST }}
       ARTIFACT_SSH_KEY: ${{ secrets.ARTIFACT_SSH_KEY }}
-      DOCKER_IMAGE: ${{ inputs.image_name }}
+      DOCKER_IMAGE: ${{ secrets.DOCKER_REPO }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
